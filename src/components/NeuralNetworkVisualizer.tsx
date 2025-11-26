@@ -213,7 +213,7 @@ export default function NeuralNetworkVisualizer() {
   const mainStyles = {
     marginLeft: ui.leftPanelOpen ? '320px' : '0',
     marginRight: ui.rightPanelOpen ? '384px' : '0',
-    paddingBottom: '320px', // Space for expanded live example bar
+    paddingBottom: '0', // 3D goes all the way down, guide overlays
     transition: 'margin 0.3s ease'
   };
   
