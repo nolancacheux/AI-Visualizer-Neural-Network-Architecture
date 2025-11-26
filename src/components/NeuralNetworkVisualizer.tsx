@@ -213,7 +213,7 @@ export default function NeuralNetworkVisualizer() {
   const mainStyles = {
     marginLeft: ui.leftPanelOpen ? '320px' : '0',
     marginRight: ui.rightPanelOpen ? '384px' : '0',
-    paddingBottom: '100px', // Space for live example bar
+    paddingBottom: '180px', // Space for expanded live example bar
     transition: 'margin 0.3s ease'
   };
   
