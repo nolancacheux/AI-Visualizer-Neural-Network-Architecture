@@ -298,6 +298,9 @@ export default function LeftSidebar() {
             <p className="text-sm text-[var(--text-muted)] mt-1">
               Interactive Deep Learning Visualization
             </p>
+            <p className="text-xs text-blue-400 mt-0.5">
+              by Nolan Cacheux
+            </p>
           </div>
           
           {/* Scrollable Content */}
