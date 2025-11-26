@@ -777,8 +777,8 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'beginner',
     useCase: 'Binary classification of linearly separable data (AND, OR gates)',
     layers: [
-      { type: 'input', params: { shape: [4] } },
-      { type: 'dense', params: { units: 1, activation: 'sigmoid' } }
+      { type: 'input', params: { shape: [2], name: 'x1, x2' } },
+      { type: 'dense', params: { units: 1, activation: 'step', name: 'Output (0/1)' } }
     ]
   },
   {
@@ -788,10 +788,9 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'beginner',
     useCase: 'Classification and regression tasks, XOR problem, tabular data',
     layers: [
-      { type: 'input', params: { shape: [4] } },
-      { type: 'dense', params: { units: 8, activation: 'relu' } },
-      { type: 'dense', params: { units: 4, activation: 'relu' } },
-      { type: 'dense', params: { units: 2, activation: 'softmax' } }
+      { type: 'input', params: { shape: [2], name: 'x1, x2' } },
+      { type: 'dense', params: { units: 3, activation: 'relu', name: 'Hidden (ReLU)' } },
+      { type: 'dense', params: { units: 1, activation: 'sigmoid', name: 'Output (Sigmoid)' } }
     ]
   },
   {
@@ -801,15 +800,13 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'intermediate',
     useCase: 'Image classification, object detection, visual pattern recognition',
     layers: [
-      { type: 'input', params: { shape: [28, 28, 1] } },
-      { type: 'conv2d', params: { filters: 32, kernel_size: 3, activation: 'relu' } },
-      { type: 'maxpool2d', params: { pool_size: 2 } },
-      { type: 'conv2d', params: { filters: 64, kernel_size: 3, activation: 'relu' } },
-      { type: 'maxpool2d', params: { pool_size: 2 } },
-      { type: 'flatten', params: {} },
-      { type: 'dense', params: { units: 128, activation: 'relu' } },
-      { type: 'dropout', params: { rate: 0.5 } },
-      { type: 'dense', params: { units: 10, activation: 'softmax' } }
+      { type: 'input', params: { shape: [28, 28, 1], name: 'Image 28x28' } },
+      { type: 'conv2d', params: { filters: 32, kernel_size: 3, activation: 'relu', name: 'Conv2D' } },
+      { type: 'maxpool2d', params: { pool_size: 2, name: 'MaxPool' } },
+      { type: 'conv2d', params: { filters: 64, kernel_size: 3, activation: 'relu', name: 'Conv2D' } },
+      { type: 'flatten', params: { name: 'Flatten' } },
+      { type: 'dense', params: { units: 128, activation: 'relu', name: 'Dense' } },
+      { type: 'dense', params: { units: 10, activation: 'softmax', name: 'Softmax 10' } }
     ]
   },
   {
@@ -819,11 +816,10 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'intermediate',
     useCase: 'Text classification, sentiment analysis, time series prediction',
     layers: [
-      { type: 'input', params: { shape: [100] } },
-      { type: 'embedding', params: { input_dim: 10000, output_dim: 128 } },
-      { type: 'lstm', params: { units: 64, return_sequences: true } },
-      { type: 'lstm', params: { units: 32, return_sequences: false } },
-      { type: 'dense', params: { units: 1, activation: 'sigmoid' } }
+      { type: 'input', params: { shape: [100], name: 'Sequence' } },
+      { type: 'embedding', params: { input_dim: 10000, output_dim: 128, name: 'Embedding' } },
+      { type: 'lstm', params: { units: 64, return_sequences: false, name: 'LSTM' } },
+      { type: 'dense', params: { units: 2, activation: 'softmax', name: 'Softmax' } }
     ]
   },
   {
@@ -833,13 +829,13 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'intermediate',
     useCase: 'Dimensionality reduction, denoising, anomaly detection',
     layers: [
-      { type: 'input', params: { shape: [784] } },
-      { type: 'dense', params: { units: 256, activation: 'relu' } },
-      { type: 'dense', params: { units: 64, activation: 'relu' } },
-      { type: 'dense', params: { units: 32, activation: 'relu' } },
-      { type: 'dense', params: { units: 64, activation: 'relu' } },
-      { type: 'dense', params: { units: 256, activation: 'relu' } },
-      { type: 'dense', params: { units: 784, activation: 'sigmoid' } }
+      { type: 'input', params: { shape: [784], name: 'Input 784' } },
+      { type: 'dense', params: { units: 256, activation: 'relu', name: 'Encoder 256' } },
+      { type: 'dense', params: { units: 64, activation: 'relu', name: 'Encoder 64' } },
+      { type: 'dense', params: { units: 8, activation: 'relu', name: 'Latent z (8)' } },
+      { type: 'dense', params: { units: 64, activation: 'relu', name: 'Decoder 64' } },
+      { type: 'dense', params: { units: 256, activation: 'relu', name: 'Decoder 256' } },
+      { type: 'dense', params: { units: 784, activation: 'sigmoid', name: 'Output 784' } }
     ]
   },
   {
@@ -849,13 +845,11 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'advanced',
     useCase: 'Machine translation, text generation, BERT, GPT models',
     layers: [
-      { type: 'input', params: { shape: [512] } },
-      { type: 'embedding', params: { input_dim: 30000, output_dim: 256 } },
-      { type: 'attention', params: { heads: 8, key_dim: 64 } },
-      { type: 'dense', params: { units: 512, activation: 'relu' } },
-      { type: 'attention', params: { heads: 8, key_dim: 64 } },
-      { type: 'dense', params: { units: 512, activation: 'relu' } },
-      { type: 'dense', params: { units: 30000, activation: 'softmax' } }
+      { type: 'input', params: { shape: [512], name: 'Tokens' } },
+      { type: 'embedding', params: { input_dim: 30000, output_dim: 256, name: 'Embed + Position' } },
+      { type: 'attention', params: { heads: 8, key_dim: 64, name: 'Self-Attention' } },
+      { type: 'dense', params: { units: 512, activation: 'relu', name: 'Feed Forward' } },
+      { type: 'dense', params: { units: 2, activation: 'softmax', name: 'Output' } }
     ]
   },
   {
@@ -865,13 +859,11 @@ export const architectureTemplates: ArchitectureTemplate[] = [
     difficulty: 'advanced',
     useCase: 'Image generation, style transfer, data augmentation',
     layers: [
-      { type: 'input', params: { shape: [100] } },
-      { type: 'dense', params: { units: 256, activation: 'relu' } },
-      { type: 'batchnorm', params: { momentum: 0.8 } },
-      { type: 'dense', params: { units: 512, activation: 'relu' } },
-      { type: 'batchnorm', params: { momentum: 0.8 } },
-      { type: 'dense', params: { units: 1024, activation: 'relu' } },
-      { type: 'dense', params: { units: 784, activation: 'tanh' } }
+      { type: 'input', params: { shape: [100], name: 'Noise z' } },
+      { type: 'dense', params: { units: 256, activation: 'relu', name: 'Generator' } },
+      { type: 'dense', params: { units: 784, activation: 'tanh', name: 'Fake Image' } },
+      { type: 'dense', params: { units: 128, activation: 'relu', name: 'Discriminator' } },
+      { type: 'dense', params: { units: 1, activation: 'sigmoid', name: 'Real/Fake' } }
     ]
   }
 ];
