@@ -80,7 +80,8 @@ export type ConceptCategory =
   | 'regularization'
   | 'architecture'
   | 'training'
-  | 'preprocessing';
+  | 'preprocessing'
+  | 'fundamentals';
 
 export type LayerType = 
   | 'input'
@@ -1257,6 +1258,273 @@ for layer in base_model.layers[:-30]:
     ],
     relatedConcepts: ['fine-tuning', 'feature-extraction', 'domain-adaptation'],
     visualizationHints: ['Show frozen vs trainable layers', 'Visualize feature reuse', 'Compare training curves']
+  }
+];
+
+// -----------------------------------------------------------------------------
+// KEY CONCEPTS (Hyperparameters, Data Augmentation, etc.)
+// -----------------------------------------------------------------------------
+
+export const keyConcepts: ConceptDefinition[] = [
+  {
+    id: 'hyperparameters-vs-parameters',
+    name: 'Hyperparameters vs Parameters',
+    category: 'training',
+    shortDescription: 'Hyperparameters are set before training; Parameters are learned during training',
+    fullExplanation: `Parameters (weights, biases) are learned automatically during training through backpropagation. 
+    Hyperparameters (learning rate, batch size, number of layers) are set by the engineer before training begins 
+    and control HOW the model learns. Tuning hyperparameters is crucial for optimal performance.`,
+    whyUseIt: 'Understanding this distinction is fundamental to training neural networks effectively.',
+    whenToUse: 'When designing and training any neural network.',
+    example: `Hyperparameters are like car settings before driving (speed limits, tire pressure). 
+    Parameters are like how you actually drive (steering adjustments based on road conditions).`,
+    formulas: [
+      {
+        latex: '\\text{Parameters: } W, b \\leftarrow \\text{Learned via } \\nabla L',
+        description: 'Weights and biases are learned through gradient descent'
+      },
+      {
+        latex: '\\text{Hyperparameters: } \\eta, \\text{batch}, \\text{epochs} \\leftarrow \\text{Set before training}',
+        description: 'Learning rate, batch size, epochs are chosen by the engineer'
+      }
+    ],
+    codeExamples: [
+      {
+        tensorflow: `# Hyperparameters (YOU set these)
+LEARNING_RATE = 0.001
+BATCH_SIZE = 32
+EPOCHS = 100
+HIDDEN_UNITS = 128
+
+# Model with hyperparameters
+model = tf.keras.Sequential([
+    layers.Dense(HIDDEN_UNITS, activation='relu'),  # HIDDEN_UNITS is hyperparameter
+    layers.Dense(10, activation='softmax')
+])
+
+# Parameters (LEARNED automatically)
+# model.trainable_variables contains weights and biases
+
+optimizer = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
+model.fit(X, y, epochs=EPOCHS, batch_size=BATCH_SIZE)`,
+        description: 'Hyperparameters vs learned parameters'
+      }
+    ],
+    relatedConcepts: ['learning-rate', 'batch-size', 'model-complexity'],
+    visualizationHints: ['Show control panel for hyperparameters', 'Animate weight changes during training']
+  },
+  {
+    id: 'data-augmentation',
+    name: 'Data Augmentation',
+    category: 'training',
+    shortDescription: 'Artificially expanding training data through transformations',
+    fullExplanation: `Data augmentation creates new training samples by applying random transformations 
+    to existing data (flips, rotations, brightness changes, etc.). This helps prevent overfitting, 
+    makes models more robust to variations, and is especially valuable when training data is limited.`,
+    whyUseIt: 'Increases effective dataset size. Prevents overfitting. Makes models more robust.',
+    whenToUse: 'Limited training data. Image classification. When model overfits.',
+    example: 'Like practicing basketball shots from different angles - the same skill, varied conditions.',
+    formulas: [
+      {
+        latex: "D' = \\{T(x) : x \\in D, T \\in \\mathcal{T}\\}",
+        description: 'Augmented dataset D\' by applying transformations T to original dataset D'
+      }
+    ],
+    codeExamples: [
+      {
+        tensorflow: `# Image augmentation layer
+augmentation = tf.keras.Sequential([
+    layers.RandomFlip("horizontal"),
+    layers.RandomRotation(0.1),
+    layers.RandomZoom(0.1),
+    layers.RandomBrightness(0.1),
+    layers.RandomContrast(0.1),
+])
+
+# Apply during training
+model = tf.keras.Sequential([
+    augmentation,
+    layers.Rescaling(1./255),
+    layers.Conv2D(32, 3, activation='relu'),
+    # ... rest of model
+])
+
+# Or use ImageDataGenerator (older API)
+datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True
+)`,
+        description: 'Data augmentation in TensorFlow/Keras'
+      }
+    ],
+    relatedConcepts: ['overfitting', 'regularization', 'transfer-learning'],
+    visualizationHints: ['Show original vs augmented images', 'Animate transformations']
+  },
+  {
+    id: 'covariate-shift',
+    name: 'Covariate Shift',
+    category: 'training',
+    shortDescription: 'When the distribution of layer inputs changes during training',
+    fullExplanation: `Internal covariate shift occurs when the distribution of inputs to a layer 
+    changes as the parameters of previous layers are updated. This makes training difficult because 
+    each layer must constantly adapt to new input distributions. Batch normalization was designed 
+    to address this problem.`,
+    whyUseIt: 'Understanding this problem explains why batch normalization is so effective.',
+    whenToUse: 'When debugging slow or unstable training in deep networks.',
+    example: 'Like trying to learn while the textbook keeps changing - hard to build on previous knowledge.',
+    formulas: [
+      {
+        latex: 'P(x^{(l)}) \\neq P(x^{(l)})_{t+1}',
+        description: 'Distribution of layer l inputs changes between training steps'
+      }
+    ],
+    codeExamples: [
+      {
+        tensorflow: `# Solution: Add BatchNormalization after each layer
+model = tf.keras.Sequential([
+    layers.Dense(256),
+    layers.BatchNormalization(),  # Stabilizes input distribution
+    layers.Activation('relu'),
+    layers.Dense(128),
+    layers.BatchNormalization(),
+    layers.Activation('relu'),
+    layers.Dense(10, activation='softmax')
+])`,
+        description: 'Using batch normalization to address covariate shift'
+      }
+    ],
+    relatedConcepts: ['batch-normalization', 'training-stability', 'deep-networks'],
+    visualizationHints: ['Show distribution shifting', 'Before/after batch norm comparison']
+  },
+  {
+    id: 'xor-problem',
+    name: 'XOR Problem',
+    category: 'fundamentals',
+    shortDescription: 'Classic problem showing why single-layer perceptrons are insufficient',
+    fullExplanation: `The XOR (exclusive or) problem demonstrates a fundamental limitation of linear classifiers. 
+    XOR outputs 1 when inputs differ and 0 when they're the same. No single straight line can separate these 
+    outputs, proving that perceptrons cannot solve non-linearly separable problems. This motivated the 
+    development of multi-layer networks with non-linear activation functions.`,
+    whyUseIt: 'Fundamental to understanding why deep learning requires multiple layers.',
+    whenToUse: 'Understanding neural network theory and the need for hidden layers.',
+    example: `Like two light switches controlling one light: 
+    - Both OFF (0,0) → Light OFF (0)
+    - Both ON (1,1) → Light OFF (0)  
+    - One ON (0,1) or (1,0) → Light ON (1)
+    A single switch can't replicate this!`,
+    formulas: [
+      {
+        latex: 'XOR(x_1, x_2) = x_1 \\oplus x_2 = (x_1 \\lor x_2) \\land \\lnot(x_1 \\land x_2)',
+        description: 'XOR is true when exactly one input is true'
+      }
+    ],
+    codeExamples: [
+      {
+        tensorflow: `# XOR cannot be solved with single layer
+# This model will FAIL:
+bad_model = tf.keras.Sequential([
+    layers.Dense(1, activation='sigmoid', input_shape=(2,))
+])
+
+# Solution: Add hidden layer with non-linear activation
+good_model = tf.keras.Sequential([
+    layers.Dense(4, activation='relu', input_shape=(2,)),  # Hidden layer
+    layers.Dense(1, activation='sigmoid')
+])
+
+X_xor = np.array([[0,0], [0,1], [1,0], [1,1]])
+y_xor = np.array([[0], [1], [1], [0]])
+good_model.compile(optimizer='adam', loss='binary_crossentropy')
+good_model.fit(X_xor, y_xor, epochs=1000, verbose=0)`,
+        description: 'Solving XOR requires a hidden layer'
+      }
+    ],
+    relatedConcepts: ['perceptron', 'mlp', 'non-linearity', 'hidden-layers'],
+    visualizationHints: ['Show 2D scatter plot', 'Animate decision boundaries', 'Show why line fails']
+  },
+  {
+    id: 'model-capacity',
+    name: 'Model Capacity',
+    category: 'architecture',
+    shortDescription: 'The ability of a model to learn complex patterns',
+    fullExplanation: `Model capacity refers to the range of functions a model can learn. Higher capacity 
+    (more layers, more neurons) allows learning more complex patterns but risks overfitting. Lower capacity 
+    may underfit. Finding the right capacity for your data is crucial - too simple won't capture patterns, 
+    too complex will memorize noise.`,
+    whyUseIt: 'Balancing capacity is key to good generalization.',
+    whenToUse: 'When deciding network architecture. When diagnosing under/overfitting.',
+    example: `Low capacity: Simple shapes only. High capacity: Can draw anything, but might draw noise too.`,
+    formulas: [
+      {
+        latex: '\\text{Capacity} \\propto \\text{Layers} \\times \\text{Neurons} \\times \\text{Parameters}',
+        description: 'Capacity increases with network size'
+      }
+    ],
+    codeExamples: [
+      {
+        tensorflow: `# Low capacity - may underfit
+simple_model = tf.keras.Sequential([
+    layers.Dense(8, activation='relu', input_shape=(100,)),
+    layers.Dense(1)
+])
+
+# High capacity - may overfit
+complex_model = tf.keras.Sequential([
+    layers.Dense(512, activation='relu', input_shape=(100,)),
+    layers.Dense(256, activation='relu'),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(1)
+])
+
+# Right capacity depends on data complexity
+# Use validation set to find optimal architecture`,
+        description: 'Comparing model capacities'
+      }
+    ],
+    relatedConcepts: ['overfitting', 'underfitting', 'regularization'],
+    visualizationHints: ['Show fitting curves', 'Compare simple vs complex models']
+  },
+  {
+    id: 'vanishing-gradient',
+    name: 'Vanishing Gradient Problem',
+    category: 'training',
+    shortDescription: 'When gradients become too small to effectively update weights',
+    fullExplanation: `In deep networks, gradients can shrink exponentially as they backpropagate through layers. 
+    This happens especially with sigmoid/tanh activations, whose derivatives are < 1. Early layers receive 
+    tiny gradients and barely learn. Solutions include ReLU activation, residual connections, batch normalization, 
+    and careful initialization.`,
+    whyUseIt: 'Understanding this problem is crucial for training deep networks successfully.',
+    whenToUse: 'When deep networks fail to train or early layers don\'t learn.',
+    example: 'Like whisper passing through many people - the message fades to nothing.',
+    formulas: [
+      {
+        latex: '\\frac{\\partial L}{\\partial w^{[1]}} = \\frac{\\partial L}{\\partial a^{[L]}} \\prod_{l=1}^{L-1} \\frac{\\partial a^{[l+1]}}{\\partial a^{[l]}}',
+        description: 'Gradient is product of many terms - if each < 1, product vanishes'
+      }
+    ],
+    codeExamples: [
+      {
+        tensorflow: `# Problem: Sigmoid in deep network
+bad_deep = tf.keras.Sequential([
+    layers.Dense(64, activation='sigmoid') for _ in range(20)
+])  # Gradients will vanish!
+
+# Solutions:
+# 1. Use ReLU activation
+good_deep_relu = tf.keras.Sequential([
+    layers.Dense(64, activation='relu') for _ in range(20)
+])
+
+# 2. Use residual connections (ResNet style)
+# 3. Use batch normalization
+# 4. Use proper initialization (He, Xavier)`,
+        description: 'Addressing vanishing gradients'
+      }
+    ],
+    relatedConcepts: ['backpropagation', 'relu', 'batch-normalization', 'residual-connections'],
+    visualizationHints: ['Show gradient magnitude per layer', 'Color gradient flow', 'Animate vanishing effect']
   }
 ];
 
