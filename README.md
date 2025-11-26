@@ -252,19 +252,6 @@ AI-Visualizer-Neural-Network-Architecture/
 
 ---
 
-## Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl/Cmd + 1` | Toggle left sidebar |
-| `Ctrl/Cmd + 2` | Toggle right panel |
-| `Ctrl/Cmd + D` | Toggle data flow visualization |
-| `Ctrl/Cmd + W` | Toggle weight display |
-| `Ctrl/Cmd + G` | Toggle gradient visualization |
-| `Space` | Start/stop training animation |
-
----
-
 ## Documentation
 
 ### Adding New Architectures
@@ -309,73 +296,6 @@ export const conceptDefinitions = {
   }
 };
 ```
-
----
-
-## Design System
-
-### Color Palette
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Background | `#0f1117` | Main app background |
-| Surface | `#1a1d27` | Cards, panels, overlays |
-| Border | `#2a2d3a` | Subtle borders |
-| Primary | `#3b82f6` | Primary actions, links |
-| Secondary | `#8b5cf6` | Secondary elements |
-| Accent | `#00d4ff` | Highlights, data flow |
-| Success | `#22c55e` | Success states, valid |
-| Warning | `#f59e0b` | Warnings, attention |
-| Error | `#ef4444` | Errors, destructive |
-
-### Typography
-
-| Font | Usage |
-|------|-------|
-| **Orbitron** | Headers, titles |
-| **Exo 2** | Body text, descriptions |
-| **JetBrains Mono** | Code blocks, formulas |
-
----
-
-## Performance
-
-- **Optimized 3D rendering** with instanced meshes
-- **Lazy loading** for heavy components
-- **Memoized calculations** for layer positions
-- **Efficient state updates** with Zustand
-- **CSS variables** for theme consistency
-
----
-
-## Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Fork** the repository
-2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
-
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Use meaningful component and variable names
-- Add JSDoc comments for complex functions
-- Ensure responsive design
-- Test across different browsers
-
----
-
-## Roadmap
-
-- [ ] Add more architecture templates (ResNet, U-Net, BERT)
-- [ ] Implement actual training with TensorFlow.js
-- [ ] Add dataset visualization (MNIST, CIFAR-10)
-- [ ] Create shareable architecture links
-- [ ] Add collaborative editing features
-- [ ] Mobile-responsive improvements
 
 ---
 
