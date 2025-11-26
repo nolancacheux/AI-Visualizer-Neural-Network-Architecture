@@ -2,10 +2,9 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNetworkStore, ArchitectureType } from '@/store/networkStore';
-import { architectureTemplates, layers as layerDefinitions } from '@/data/curriculum';
 
 // Icons
-const icons = {
+const icons: Record<string, JSX.Element> = {
   perceptron: (
     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="6" cy="12" r="2" />
@@ -125,13 +124,6 @@ const layerIcons: Record<string, JSX.Element> = {
       <line x1="12" y1="6" x2="12" y2="18" />
     </svg>
   ),
-  embedding: (
-    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="6" cy="12" r="2" />
-      <rect x="12" y="6" width="8" height="12" rx="1" />
-      <line x1="8" y1="12" x2="12" y2="12" />
-    </svg>
-  ),
   attention: (
     <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="12" cy="12" r="3" />
@@ -139,10 +131,6 @@ const layerIcons: Record<string, JSX.Element> = {
       <path d="M12 19 L12 22" />
       <path d="M2 12 L5 12" />
       <path d="M19 12 L22 12" />
-      <path d="M4.93 4.93 L7.05 7.05" />
-      <path d="M16.95 16.95 L19.07 19.07" />
-      <path d="M4.93 19.07 L7.05 16.95" />
-      <path d="M16.95 7.05 L19.07 4.93" />
     </svg>
   )
 };
@@ -187,173 +175,136 @@ export default function LeftSidebar() {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -320, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed left-0 top-0 h-full w-80 glass-strong z-40 flex flex-col overflow-hidden"
+          className="fixed left-0 top-0 h-full w-80 glass-strong z-40 flex flex-col"
         >
           {/* Header */}
-          <div className="p-4 border-b border-white/10">
+          <div className="p-4 border-b border-[var(--border-color)]">
             <div className="flex items-center justify-between">
-              <h1 className="font-display text-xl font-bold gradient-text">
-                AI Visualizer
+              <h1 className="text-lg font-semibold text-[var(--text-primary)]">
+                Neural Network Lab
               </h1>
               <button
                 onClick={toggleLeftPanel}
-                className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+                className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-secondary)]"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-            <p className="text-sm text-gray-400 mt-1">
-              Neural Network Architecture Explorer
+            <p className="text-sm text-[var(--text-muted)] mt-1">
+              Interactive Deep Learning Visualization
             </p>
           </div>
           
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
-          {/* Architecture Selection */}
-          <div className="p-4 border-b border-white/10">
-            <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-              Architecture
-            </h2>
-            <div className="space-y-2">
-              {architectures.map((arch) => (
-                <motion.button
-                  key={arch.id}
-                  whileHover={{ x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setArchitecture(arch.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
-                    currentArchitecture === arch.id
-                      ? 'bg-gradient-to-r from-neon-blue/20 to-neon-purple/20 border border-neon-blue/30'
-                      : 'hover:bg-white/5 border border-transparent'
-                  }`}
-                >
-                  <div className={`p-2 rounded-lg ${
-                    currentArchitecture === arch.id ? 'bg-neon-blue/20 text-neon-blue' : 'bg-white/5 text-gray-400'
-                  }`}>
-                    {icons[arch.id] || icons.custom}
-                  </div>
-                  <div className="text-left">
-                    <div className={`font-medium ${currentArchitecture === arch.id ? 'text-white' : 'text-gray-300'}`}>
-                      {arch.name}
+          <div className="flex-1 overflow-y-auto">
+            {/* Architecture Selection */}
+            <div className="p-4 border-b border-[var(--border-color)]">
+              <h2 className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
+                Select Architecture
+              </h2>
+              <div className="space-y-1">
+                {architectures.map((arch) => (
+                  <motion.button
+                    key={arch.id}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setArchitecture(arch.id)}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                      currentArchitecture === arch.id
+                        ? 'bg-[var(--accent-primary)] bg-opacity-10 border border-[var(--accent-primary)] border-opacity-30'
+                        : 'hover:bg-[var(--bg-tertiary)] border border-transparent'
+                    }`}
+                  >
+                    <div className={`p-2 rounded-lg ${
+                      currentArchitecture === arch.id 
+                        ? 'bg-[var(--accent-primary)] bg-opacity-20 text-[var(--accent-primary)]' 
+                        : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)]'
+                    }`}>
+                      {icons[arch.id] || icons.custom}
                     </div>
-                    <div className="text-xs text-gray-500">{arch.desc}</div>
-                  </div>
-                </motion.button>
-              ))}
+                    <div className="text-left">
+                      <div className={`font-medium text-sm ${
+                        currentArchitecture === arch.id ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
+                      }`}>
+                        {arch.name}
+                      </div>
+                      <div className="text-xs text-[var(--text-muted)]">{arch.desc}</div>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
             </div>
-          </div>
-          
-          {/* Layer Builder */}
-          <div className="p-4 border-b border-white/10">
-            <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-              Add Layer
-            </h2>
-            <div className="grid grid-cols-2 gap-2">
-              {availableLayers.map((layer) => (
-                <motion.button
-                  key={layer.type}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => addLayer(layer.type as any)}
-                  className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 
-                           border border-white/5 hover:border-neon-purple/30 transition-all text-sm"
-                >
-                  <span className="text-neon-purple">
-                    {layerIcons[layer.type] || layerIcons.dense}
-                  </span>
-                  <span className="text-gray-300">{layer.name}</span>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-          
-          {/* Current Network Layers */}
-          <div className="flex-1 overflow-y-auto p-4">
-            <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-              Network Layers ({layers.length})
-            </h2>
-            <div className="space-y-2">
-              {layers.map((layer, index) => (
-                <motion.div
-                  key={layer.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="layer-card p-3 rounded-lg bg-void-lighter flex items-center justify-between group"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-500 w-4">{index}</span>
-                    <div className="text-neon-blue/70">
+            
+            {/* Layer Builder */}
+            <div className="p-4 border-b border-[var(--border-color)]">
+              <h2 className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
+                Add Layer
+              </h2>
+              <div className="grid grid-cols-2 gap-2">
+                {availableLayers.map((layer) => (
+                  <motion.button
+                    key={layer.type}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => addLayer(layer.type as any)}
+                    className="flex items-center gap-2 p-2 rounded-lg bg-[var(--bg-tertiary)] 
+                             hover:bg-[var(--bg-elevated)] border border-[var(--border-color)]
+                             hover:border-[var(--border-hover)] transition-all text-sm"
+                  >
+                    <span className="text-[var(--accent-primary)]">
                       {layerIcons[layer.type] || layerIcons.dense}
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-gray-200">{layer.name}</div>
-                      <div className="text-xs text-gray-500">
-                        {layer.type === 'dense' && `${layer.params.units} units`}
-                        {layer.type === 'conv2d' && `${layer.params.filters} filters`}
-                        {layer.type === 'dropout' && `${((layer.params.rate as number) * 100).toFixed(0)}%`}
+                    </span>
+                    <span className="text-[var(--text-secondary)]">{layer.name}</span>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Current Network Layers */}
+            <div className="p-4">
+              <h2 className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
+                Network Layers ({layers.length})
+              </h2>
+              <div className="space-y-2">
+                {layers.map((layer, index) => (
+                  <motion.div
+                    key={layer.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="layer-card p-3 rounded-lg bg-[var(--bg-secondary)] flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-mono text-[var(--text-muted)] w-4">{index}</span>
+                      <div className="text-[var(--accent-primary)]">
+                        {layerIcons[layer.type] || layerIcons.dense}
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-[var(--text-primary)]">{layer.name}</div>
+                        <div className="text-xs text-[var(--text-muted)]">
+                          {layer.type === 'dense' && `${layer.params.units} units`}
+                          {layer.type === 'conv2d' && `${layer.params.filters} filters`}
+                          {layer.type === 'dropout' && `${((layer.params.rate as number) * 100).toFixed(0)}%`}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <button
-                    onClick={() => removeLayer(layer.id)}
-                    className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-500/20 
-                             text-gray-500 hover:text-red-400 transition-all"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </motion.div>
-              ))}
+                    <button
+                      onClick={() => removeLayer(layer.id)}
+                      className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-[var(--accent-danger)] hover:bg-opacity-20
+                               text-[var(--text-muted)] hover:text-[var(--accent-danger)] transition-all"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-          
-          {/* Theme Selector */}
-          <div className="p-4 border-t border-white/10">
-            <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-              Theme
-            </h2>
-            <div className="grid grid-cols-4 gap-2">
-              {[
-                { id: 'dark', color: 'bg-gray-900', label: 'Dark' },
-                { id: 'light', color: 'bg-gray-100', label: 'Light' },
-                { id: 'midnight', color: 'bg-indigo-950', label: 'Midnight' },
-                { id: 'ocean', color: 'bg-cyan-950', label: 'Ocean' }
-              ].map((theme) => (
-                <button
-                  key={theme.id}
-                  onClick={() => useNetworkStore.getState().setTheme(theme.id as any)}
-                  className={`aspect-square rounded-lg ${theme.color} border-2 transition-all
-                    ${ui.theme === theme.id ? 'border-neon-blue scale-110' : 'border-white/10 hover:border-white/30'}`}
-                  title={theme.label}
-                />
-              ))}
-            </div>
-          </div>
-          </div>
-          
-          {/* Start Tour Button - Fixed at bottom */}
-          <div className="p-4 border-t border-white/10 shrink-0">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => useNetworkStore.getState().startTour()}
-              className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-neon-blue to-neon-purple
-                       text-white font-medium btn-neon flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                      d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              Start Interactive Tour
-            </motion.button>
           </div>
         </motion.aside>
       )}
     </AnimatePresence>
   );
 }
-
