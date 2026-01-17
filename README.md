@@ -33,17 +33,11 @@
 
 <div align="center">
 
-### Desktop View - Full Interface
-
-<img src="./images/desktop-full.png" alt="Desktop Full Interface" width="800" />
-
-*MLP Architecture with Layer Panel and Code Generation*
-
 ### Feature Panels
 
 <p>
-<img src="./images/add-layer.png" alt="Add Layer Panel" width="390" />
-<img src="./images/control-panel.png" alt="Control Panel" width="390" />
+<img src="./images/add-layer.png" alt="Add Layer Panel" width="280" />
+<img src="./images/control-panel.png" alt="Control Panel" width="280" />
 </p>
 
 *Layer Builder (left) and Control Panel with Parameters/Code/Theory tabs (right)*
