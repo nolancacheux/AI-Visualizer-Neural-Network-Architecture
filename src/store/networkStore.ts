@@ -268,7 +268,7 @@ const initialState = {
     rightPanelTab: 'parameters' as const,
     isTourActive: false,
     currentTourStep: 0,
-    theme: 'dark' as const
+    theme: 'light' as const
   }
 };
 

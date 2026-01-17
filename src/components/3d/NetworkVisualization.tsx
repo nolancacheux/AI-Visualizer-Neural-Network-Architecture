@@ -111,7 +111,7 @@ function Connection({
 }
 
 // Layer visualization
-function LayerVisualization({ 
+function LayerVisualization({
   layerIndex,
   neurons,
   type,
@@ -131,7 +131,7 @@ function LayerVisualization({
   const displayNeurons = Math.min(neurons, 8);
   const spacing = 0.7;
   const startY = ((displayNeurons - 1) * spacing) / 2;
-  
+
   const positions: [number, number, number][] = useMemo(() => {
     return Array.from({ length: displayNeurons }, (_, i) => [
       xPosition,
@@ -139,40 +139,40 @@ function LayerVisualization({
       0
     ] as [number, number, number]);
   }, [displayNeurons, xPosition, startY, spacing]);
-  
+
   return (
     <group>
       {positions.map((pos, i) => (
-        <Neuron 
-          key={i} 
-          position={pos} 
+        <Neuron
+          key={i}
+          position={pos}
           color={color}
           size={0.25}
           pulseSpeed={2 + layerIndex * 0.5}
         />
       ))}
-      
+
       {/* Layer label using Html */}
       <Html
         position={[xPosition, startY + 1, 0]}
         center
-        style={{ 
+        style={{
           pointerEvents: 'none',
           userSelect: 'none'
         }}
       >
         <div className="text-center whitespace-nowrap">
-          <div className={`text-sm font-bold ${isSelected ? 'text-cyan-400' : 'text-white'}`}>
+          <div className={`text-sm font-bold ${isSelected ? 'text-cyan-400' : 'text-[var(--text-primary)]'}`}>
             {name}
           </div>
-          <div className="text-xs text-gray-400">
-            {type === 'dense' ? `${neurons} units` : 
+          <div className="text-xs text-[var(--text-muted)]">
+            {type === 'dense' ? `${neurons} units` :
              type === 'conv2d' ? `${neurons} filters` :
              type === 'input' ? 'Input' : ''}
           </div>
         </div>
       </Html>
-      
+
       {/* Ellipsis for more neurons */}
       {neurons > 8 && (
         <Html
@@ -180,10 +180,10 @@ function LayerVisualization({
           center
           style={{ pointerEvents: 'none' }}
         >
-          <div className="text-gray-400 text-lg">⋮</div>
+          <div className="text-[var(--text-muted)] text-lg">⋮</div>
         </Html>
       )}
-      
+
       {/* Selection ring */}
       {isSelected && (
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[xPosition, 0, 0]}>
@@ -299,23 +299,60 @@ function NetworkScene() {
   );
 }
 
-// Grid floor
+// Grid floor - adapts to theme
 function GridFloor() {
+  const theme = useNetworkStore(state => state.ui.theme);
+  const gridColor = theme === 'dark' ? '#0a0a0f' : '#e2e8f0';
+  const opacity = theme === 'dark' ? 0.3 : 0.5;
+
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
       <planeGeometry args={[50, 50, 50, 50]} />
-      <meshStandardMaterial 
-        color="#0a0a0f"
+      <meshStandardMaterial
+        color={gridColor}
         wireframe
         transparent
-        opacity={0.3}
+        opacity={opacity}
       />
     </mesh>
   );
 }
 
+// Background stars - only shown in dark mode
+function BackgroundStars() {
+  const theme = useNetworkStore(state => state.ui.theme);
+
+  // Use useMemo to generate consistent star positions (must be called before any early returns)
+  const stars = useMemo(() => {
+    return Array.from({ length: 100 }).map((_, i) => ({
+      position: [
+        (Math.sin(i * 1.234) * 0.5) * 40,
+        (Math.cos(i * 2.345) * 0.5) * 40,
+        -20 - (Math.sin(i * 3.456) * 0.5 + 0.5) * 20
+      ] as [number, number, number],
+      size: 0.02 + (Math.sin(i * 4.567) * 0.5 + 0.5) * 0.03,
+      opacity: 0.5 + (Math.cos(i * 5.678) * 0.5 + 0.5) * 0.5
+    }));
+  }, []);
+
+  if (theme !== 'dark') return null;
+
+  return (
+    <>
+      {stars.map((star, i) => (
+        <mesh key={i} position={star.position}>
+          <sphereGeometry args={[star.size, 8, 8]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={star.opacity} />
+        </mesh>
+      ))}
+    </>
+  );
+}
+
 // Main component
 export default function NetworkVisualization() {
+  const theme = useNetworkStore(state => state.ui.theme);
+
   return (
     <div className="w-full h-full">
       <Canvas
@@ -323,14 +360,14 @@ export default function NetworkVisualization() {
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
       >
-        {/* Lighting */}
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
+        {/* Lighting - adjusted for theme */}
+        <ambientLight intensity={theme === 'dark' ? 0.5 : 0.8} />
+        <pointLight position={[10, 10, 10]} intensity={theme === 'dark' ? 1 : 0.8} color="#ffffff" />
         <pointLight position={[-10, 5, -10]} intensity={0.5} color="#a855f7" />
         <pointLight position={[0, -5, 5]} intensity={0.3} color="#00d4ff" />
-        
+
         {/* Controls */}
-        <OrbitControls 
+        <OrbitControls
           enablePan={true}
           enableZoom={true}
           enableRotate={true}
@@ -338,25 +375,13 @@ export default function NetworkVisualization() {
           maxDistance={30}
           target={[0, 0, 0]}
         />
-        
+
         {/* Scene */}
         <NetworkScene />
         <GridFloor />
-        
-        {/* Background stars effect */}
-        {Array.from({ length: 100 }).map((_, i) => (
-          <mesh 
-            key={i} 
-            position={[
-              (Math.random() - 0.5) * 40,
-              (Math.random() - 0.5) * 40,
-              -20 - Math.random() * 20
-            ]}
-          >
-            <sphereGeometry args={[0.02 + Math.random() * 0.03, 8, 8]} />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.5 + Math.random() * 0.5} />
-          </mesh>
-        ))}
+
+        {/* Background stars effect - dark mode only */}
+        <BackgroundStars />
       </Canvas>
     </div>
   );
