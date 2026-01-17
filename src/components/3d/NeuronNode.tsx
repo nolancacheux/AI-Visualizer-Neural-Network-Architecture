@@ -15,7 +15,7 @@ interface NeuronNodeProps {
 
 export default function NeuronNode({
   position,
-  color = '#6366f1',
+  color = '#3b82f6',
   size = 0.25,
   isActive = true,
   pulseSpeed = 2
@@ -92,8 +92,8 @@ export function NeuronLayer({
   
   const nodeColor = color || (
     type === 'input' ? '#00d4ff' :
-    type === 'output' ? '#8b5cf6' :
-    '#6366f1'
+    type === 'output' ? '#10b981' :
+    '#3b82f6'
   );
   
   return (

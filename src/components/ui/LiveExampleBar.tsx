@@ -91,29 +91,29 @@ function LayerCard({ layer, index, isActive }: { layer: NetworkLayer; index: num
   
   const colorMap: Record<string, string> = {
     input: 'border-blue-500 bg-blue-500/10',
-    dense: 'border-purple-500 bg-purple-500/10',
+    dense: 'border-blue-500 bg-blue-500/10',
     conv2d: 'border-cyan-500 bg-cyan-500/10',
     maxpool2d: 'border-teal-500 bg-teal-500/10',
     flatten: 'border-amber-500 bg-amber-500/10',
     dropout: 'border-red-500 bg-red-500/10',
     batchnorm: 'border-yellow-500 bg-yellow-500/10',
     lstm: 'border-orange-500 bg-orange-500/10',
-    embedding: 'border-indigo-500 bg-indigo-500/10',
-    attention: 'border-pink-500 bg-pink-500/10',
+    embedding: 'border-blue-500 bg-blue-500/10',
+    attention: 'border-cyan-500 bg-cyan-500/10',
     output: 'border-emerald-500 bg-emerald-500/10',
   };
   
   const textColorMap: Record<string, string> = {
     input: 'text-blue-400',
-    dense: 'text-purple-400',
+    dense: 'text-blue-400',
     conv2d: 'text-cyan-400',
     maxpool2d: 'text-teal-400',
     flatten: 'text-amber-400',
     dropout: 'text-red-400',
     batchnorm: 'text-yellow-400',
     lstm: 'text-orange-400',
-    embedding: 'text-indigo-400',
-    attention: 'text-pink-400',
+    embedding: 'text-blue-400',
+    attention: 'text-cyan-400',
     output: 'text-emerald-400',
   };
   
@@ -132,7 +132,7 @@ function LayerCard({ layer, index, isActive }: { layer: NetworkLayer; index: num
       </div>
       <div className="space-y-1.5 text-[9px]">
         <div><span className="text-blue-400 font-semibold">Input:</span> <span className="text-[var(--text-secondary)]">{info.input}</span></div>
-        <div><span className="text-purple-400 font-semibold">Role:</span> <span className="text-[var(--text-secondary)]">{info.role}</span></div>
+        <div><span className="text-cyan-400 font-semibold">Role:</span> <span className="text-[var(--text-secondary)]">{info.role}</span></div>
         <div><span className="text-emerald-400 font-semibold">Output:</span> <span className="text-[var(--text-secondary)]">{info.output}</span></div>
         {info.formula && <div><span className="text-amber-400 font-semibold">Formula:</span> <span className="font-mono text-amber-300">{info.formula}</span></div>}
         <div className="pt-1 border-t border-[var(--border-color)] mt-2">
@@ -183,9 +183,9 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
             </motion.div>
             
             {/* Step */}
-            <motion.div className="w-12 h-12 rounded-lg bg-purple-600/30 border-2 border-purple-500 flex flex-col items-center justify-center" animate={{ scale: step === 3 ? 1.2 : 1, boxShadow: step === 3 ? '0 0 20px rgba(168,85,247,0.5)' : 'none' }}>
-              <span className="text-purple-400 font-bold text-[10px]">Step</span>
-              <span className="text-[10px] text-purple-300">{step >= 3 ? '>=0' : 'σ'}</span>
+            <motion.div className="w-12 h-12 rounded-lg bg-cyan-600/30 border-2 border-cyan-500 flex flex-col items-center justify-center" animate={{ scale: step === 3 ? 1.2 : 1, boxShadow: step === 3 ? '0 0 20px rgba(34,211,238,0.5)' : 'none' }}>
+              <span className="text-cyan-400 font-bold text-[10px]">Step</span>
+              <span className="text-[10px] text-cyan-300">{step >= 3 ? '>=0' : 'σ'}</span>
             </motion.div>
             
             {/* Output */}
@@ -272,7 +272,7 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
     return (
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
-          <div className="text-[12px] text-purple-400 font-semibold mb-3">LIVE ANIMATION: XOR Problem Solution</div>
+          <div className="text-[12px] text-blue-400 font-semibold mb-3">LIVE ANIMATION: XOR Problem Solution</div>
           <div className="flex items-center justify-center gap-3">
             {/* Input */}
             <div className="flex flex-col gap-2">
@@ -283,7 +283,7 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
             {/* Hidden */}
             <div className="flex flex-col gap-1">
               {[0.8, 0.0, 0.6].map((v, i) => (
-                <motion.div key={i} className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-[10px]" animate={{ scale: step === 1 ? 1.2 : 1, opacity: step >= 1 ? 1 : 0.5 }}>
+                <motion.div key={i} className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px]" animate={{ scale: step === 1 ? 1.2 : 1, opacity: step >= 1 ? 1 : 0.5 }}>
                   {step >= 2 ? v.toFixed(1) : `h${i+1}`}
                 </motion.div>
               ))}
@@ -297,7 +297,7 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
           
           <div className="mt-3 p-2 rounded bg-[var(--bg-secondary)] text-[10px]">
             <div className="text-gray-400">XOR(1,0) = 1</div>
-            <div className="font-mono text-purple-400">h = ReLU(W1*[1,0] + b1) → y = sigmoid(W2*h + b2) = 0.95 → 1</div>
+            <div className="font-mono text-blue-400">h = ReLU(W1*[1,0] + b1) → y = sigmoid(W2*h + b2) = 0.95 → 1</div>
           </div>
         </div>
         
@@ -310,21 +310,21 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
             <text x="10" y="15" fill="gray" fontSize="10">x2</text>
             
             {/* Curved decision boundary - separates XOR classes */}
-            <motion.path 
-              d="M 20 100 Q 100 60 100 20" 
-              stroke="#a855f7" 
-              strokeWidth="3" 
+            <motion.path
+              d="M 20 100 Q 100 60 100 20"
+              stroke="#3b82f6"
+              strokeWidth="3"
               fill="none"
               strokeDasharray="6"
-              animate={{ opacity: step >= 1 ? 1 : 0.3 }} 
+              animate={{ opacity: step >= 1 ? 1 : 0.3 }}
             />
-            <motion.path 
-              d="M 180 20 Q 100 60 100 100" 
-              stroke="#a855f7" 
-              strokeWidth="3" 
+            <motion.path
+              d="M 180 20 Q 100 60 100 100"
+              stroke="#3b82f6"
+              strokeWidth="3"
               fill="none"
               strokeDasharray="6"
-              animate={{ opacity: step >= 1 ? 1 : 0.3 }} 
+              animate={{ opacity: step >= 1 ? 1 : 0.3 }}
             />
             
             <circle cx="30" cy="90" r="8" fill="#ef4444" />
@@ -380,8 +380,8 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
               <div className="text-gray-400">Early conv layers detect <span className="text-cyan-400">edges, lines, corners</span></div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-purple-500/30 rounded flex items-center justify-center text-purple-400">C2</div>
-              <div className="text-gray-400">Middle layers detect <span className="text-purple-400">textures, patterns</span></div>
+              <div className="w-8 h-8 bg-blue-500/30 rounded flex items-center justify-center text-blue-400">C2</div>
+              <div className="text-gray-400">Middle layers detect <span className="text-blue-400">textures, patterns</span></div>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-emerald-500/30 rounded flex items-center justify-center text-emerald-400">C3</div>
@@ -443,10 +443,10 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
     return (
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
-          <div className="text-[12px] text-pink-400 font-semibold mb-3">LIVE ANIMATION: Self-Attention</div>
+          <div className="text-[12px] text-cyan-400 font-semibold mb-3">LIVE ANIMATION: Self-Attention</div>
           <div className="flex items-center justify-center gap-2">
             {['The', 'cat', 'sat'].map((word, i) => (
-              <motion.div key={word} className="px-2 py-1 rounded bg-blue-600/30 text-[10px]" animate={{ scale: step === i ? 1.2 : 1, boxShadow: step === i ? '0 0 15px rgba(236,72,153,0.5)' : 'none' }}>{word}</motion.div>
+              <motion.div key={word} className="px-2 py-1 rounded bg-blue-600/30 text-[10px]" animate={{ scale: step === i ? 1.2 : 1, boxShadow: step === i ? '0 0 15px rgba(34,211,238,0.5)' : 'none' }}>{word}</motion.div>
             ))}
           </div>
           <div className="mt-3 flex justify-center">
@@ -457,7 +457,7 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
                   <tr key={w}>
                     <td className="px-2 text-gray-400">{w}</td>
                     {[0.1, 0.6, 0.3].map((a, j) => (
-                      <motion.td key={j} className="px-2 text-center rounded" style={{ backgroundColor: `rgba(236,72,153,${step >= 2 ? a : 0.1})` }} animate={{ opacity: step >= 2 ? 1 : 0.5 }}>
+                      <motion.td key={j} className="px-2 text-center rounded" style={{ backgroundColor: `rgba(34,211,238,${step >= 2 ? a : 0.1})` }} animate={{ opacity: step >= 2 ? 1 : 0.5 }}>
                         {step >= 2 ? a.toFixed(1) : '?'}
                       </motion.td>
                     ))}
@@ -468,11 +468,11 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
           </div>
         </div>
         
-        <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] border border-pink-500/30">
-          <div className="text-[12px] text-pink-400 font-semibold mb-3">Q, K, V MECHANISM</div>
+        <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] border border-cyan-500/30">
+          <div className="text-[12px] text-cyan-400 font-semibold mb-3">Q, K, V MECHANISM</div>
           <div className="space-y-2 text-[10px]">
             <div className="p-2 rounded bg-blue-500/10"><span className="text-blue-400 font-bold">Query (Q):</span> <span className="text-gray-400">What am I looking for?</span></div>
-            <div className="p-2 rounded bg-purple-500/10"><span className="text-purple-400 font-bold">Key (K):</span> <span className="text-gray-400">What information do I contain?</span></div>
+            <div className="p-2 rounded bg-cyan-500/10"><span className="text-cyan-400 font-bold">Key (K):</span> <span className="text-gray-400">What information do I contain?</span></div>
             <div className="p-2 rounded bg-emerald-500/10"><span className="text-emerald-400 font-bold">Value (V):</span> <span className="text-gray-400">What information to pass forward?</span></div>
             <div className="p-2 rounded bg-amber-500/10 font-mono text-amber-400 text-center">Attention = softmax(QK^T / sqrt(d)) * V</div>
           </div>
@@ -485,7 +485,7 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
     return (
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
-          <div className="text-[12px] text-purple-400 font-semibold mb-3">LIVE ANIMATION: Generator vs Discriminator</div>
+          <div className="text-[12px] text-blue-400 font-semibold mb-3">LIVE ANIMATION: Generator vs Discriminator</div>
           <div className="flex items-center justify-center gap-3">
             <motion.div className="w-10 h-10 bg-gray-700 rounded grid grid-cols-3 gap-px p-1" animate={{ scale: step === 0 ? 1.2 : 1 }}>
               {Array(9).fill(0).map((_, i) => <div key={i} className="bg-gray-500" style={{ opacity: Math.random() }} />)}
@@ -493,7 +493,7 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
             <span className="text-gray-500">→</span>
             <motion.div className="px-3 py-2 rounded border border-emerald-500 bg-emerald-600/20 text-emerald-400 text-[10px]" animate={{ scale: step === 1 ? 1.1 : 1 }}>Generator</motion.div>
             <span className="text-gray-500">→</span>
-            <motion.div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded" animate={{ scale: step === 2 ? 1.2 : 1 }} />
+            <motion.div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded" animate={{ scale: step === 2 ? 1.2 : 1 }} />
             <span className="text-gray-500">→</span>
             <motion.div className="px-3 py-2 rounded border border-amber-500 bg-amber-600/20 text-amber-400 text-[10px]" animate={{ scale: step === 3 ? 1.1 : 1 }}>Discriminator</motion.div>
             <span className="text-gray-500">→</span>
@@ -526,9 +526,9 @@ function ArchitectureAnimation({ architecture, step }: { architecture: string; s
             </motion.div>
             <span className="text-gray-500">→</span>
             <motion.div className="flex items-end gap-px" animate={{ scale: step === 1 ? 1.1 : 1 }}>
-              <div className="w-2 h-10 bg-purple-500/50 rounded-sm" />
-              <div className="w-2 h-8 bg-purple-500/50 rounded-sm" />
-              <div className="w-2 h-6 bg-purple-500/50 rounded-sm" />
+              <div className="w-2 h-10 bg-blue-500/50 rounded-sm" />
+              <div className="w-2 h-8 bg-blue-500/50 rounded-sm" />
+              <div className="w-2 h-6 bg-blue-500/50 rounded-sm" />
             </motion.div>
             <motion.div className="w-8 h-8 rounded border-2 border-amber-500 bg-amber-600/30 flex items-center justify-center text-amber-400 font-bold" animate={{ scale: step === 2 ? 1.3 : 1 }}>z</motion.div>
             <motion.div className="flex items-end gap-px" animate={{ scale: step === 3 ? 1.1 : 1 }}>
@@ -592,10 +592,12 @@ export default function LiveExampleBar() {
       {/* Toggle Button - Always visible */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm flex items-center gap-2 shadow-lg hover:shadow-xl transition-all"
-        style={{ marginLeft: `calc((${leftMargin} - ${rightMargin}) / 2)` }}
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-3 sm:px-4 py-2 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs sm:text-sm flex items-center gap-2 shadow-lg hover:shadow-xl transition-all"
       >
-        <span className="font-semibold">Architecture Guide ({layers.length} layers)</span>
+        <span className="font-semibold">
+          <span className="hidden sm:inline">Architecture Guide ({layers.length} layers)</span>
+          <span className="sm:hidden">Guide ({layers.length})</span>
+        </span>
         <motion.svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" animate={{ rotate: isExpanded ? 180 : 0 }}>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </motion.svg>
@@ -605,8 +607,8 @@ export default function LiveExampleBar() {
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            className="fixed inset-0 z-30 overflow-auto"
-            style={{ left: leftMargin, right: rightMargin, top: '64px' }}
+            className="fixed inset-0 z-30 overflow-auto md:left-0 md:right-0"
+            style={{ top: '56px' }}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
@@ -628,7 +630,7 @@ export default function LiveExampleBar() {
               {/* Layer Cards Grid */}
               <div className="mb-6">
                 <h3 className="text-sm font-semibold text-[var(--text-secondary)] mb-3">NETWORK LAYERS (matching 3D visualization above)</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                   {layers.map((layer, index) => (
                     <LayerCard 
                       key={layer.id} 
@@ -647,7 +649,7 @@ export default function LiveExampleBar() {
               </div>
               
               {/* Additional Info */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] border border-blue-500/30">
                   <div className="text-[12px] text-blue-400 font-semibold mb-2">FORWARD PASS</div>
                   <div className="text-[10px] text-gray-400">Data flows left to right through each layer. Each layer transforms the input using weights and activation functions. The final layer produces predictions.</div>

@@ -356,7 +356,7 @@ function LayerInfoModal({ layerType, onClose }: { layerType: string; onClose: ()
             </div>
             <div>
               <h4 className="text-xs font-semibold text-[var(--text-muted)] uppercase mb-2">Output Shape</h4>
-              <div className="p-2 rounded bg-[var(--bg-tertiary)] text-sm font-mono text-purple-400">
+              <div className="p-2 rounded bg-[var(--bg-tertiary)] text-sm font-mono text-[var(--accent-primary)]">
                 {info.outputShape}
               </div>
             </div>
@@ -562,7 +562,7 @@ export default function LeftSidebar() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -320, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed left-0 top-0 h-full w-80 glass-strong z-40 flex flex-col"
+            className="fixed left-0 top-0 h-full w-full sm:w-80 glass-strong z-40 flex flex-col max-w-[100vw]"
           >
             {/* Header */}
             <div className="p-4 border-b border-[var(--border-color)]">

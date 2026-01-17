@@ -116,13 +116,13 @@ function tokenizePython(line: string): Token[] {
 // Convert tokens to React elements
 function renderTokens(tokens: Token[]): JSX.Element[] {
   const colorMap: Record<TokenType, string> = {
-    keyword: 'text-purple-400',
-    string: 'text-green-400',
-    number: 'text-orange-400',
+    keyword: 'text-[#c792ea]',
+    string: 'text-[#c3e88d]',
+    number: 'text-[#f78c6c]',
     comment: 'text-gray-500 italic',
-    function: 'text-blue-400',
-    class: 'text-yellow-400',
-    operator: 'text-cyan-300',
+    function: 'text-[#82aaff]',
+    class: 'text-[#ffcb6b]',
+    operator: 'text-[#89ddff]',
     text: 'text-gray-200'
   };
   
