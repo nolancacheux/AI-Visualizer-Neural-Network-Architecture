@@ -337,7 +337,7 @@ export default function NetworkVisualization() {
   return (
     <div className="w-full h-full">
       <Canvas
-        camera={{ position: [0, 3, 12], fov: 50 }}
+        camera={{ position: [0, 2, 8], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
       >
