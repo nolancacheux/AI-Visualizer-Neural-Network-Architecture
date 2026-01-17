@@ -299,25 +299,6 @@ function NetworkScene() {
   );
 }
 
-// Grid floor - adapts to theme
-function GridFloor() {
-  const theme = useNetworkStore(state => state.ui.theme);
-  const gridColor = theme === 'dark' ? '#0a0a0f' : '#e2e8f0';
-  const opacity = theme === 'dark' ? 0.3 : 0.5;
-
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
-      <planeGeometry args={[50, 50, 50, 50]} />
-      <meshStandardMaterial
-        color={gridColor}
-        wireframe
-        transparent
-        opacity={opacity}
-      />
-    </mesh>
-  );
-}
-
 // Background stars - only shown in dark mode
 function BackgroundStars() {
   const theme = useNetworkStore(state => state.ui.theme);

@@ -62,20 +62,21 @@ function HeaderBar({ isMobile }: { isMobile: boolean }) {
 
   return (
     <header className="fixed top-0 left-0 right-0 h-14 glass z-30 flex items-center justify-between px-2 sm:px-4">
-      {/* Left: Toggle sidebar */}
+      {/* Left: Logo and title */}
       <div className="flex items-center gap-2 sm:gap-4">
-        {(isMobile || !ui.leftPanelOpen) && (
+        {/* Mobile only hamburger menu */}
+        {isMobile && (
           <button
             onClick={toggleLeftPanel}
             className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
-            aria-label="Toggle left panel"
+            aria-label="Toggle menu"
           >
             <svg className="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         )}
-        
+
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,11 +157,12 @@ function HeaderBar({ isMobile }: { isMobile: boolean }) {
           </svg>
         </a>
         
-        {(isMobile || !ui.rightPanelOpen) && (
+        {/* Mobile only settings button */}
+        {isMobile && (
           <button
             onClick={toggleRightPanel}
             className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
-            aria-label="Toggle right panel"
+            aria-label="Toggle settings"
           >
             <svg className="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -308,6 +310,38 @@ export default function NeuralNetworkVisualizer() {
 
       {/* Right Panel */}
       <RightPanel />
+
+      {/* Left sidebar toggle arrow - shown when sidebar is closed */}
+      {!isMobile && !ui.leftPanelOpen && (
+        <button
+          onClick={toggleLeftPanel}
+          className="fixed left-0 top-1/2 -translate-y-1/2 z-30 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-r-lg px-2 py-4 shadow-lg hover:bg-[var(--bg-tertiary)] transition-all group"
+          aria-label="Open layers panel"
+        >
+          <div className="flex flex-col items-center gap-2">
+            <svg className="w-5 h-5 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <span className="text-xs font-medium text-[var(--text-secondary)] writing-mode-vertical">Layers</span>
+          </div>
+        </button>
+      )}
+
+      {/* Right sidebar toggle arrow - shown when sidebar is closed */}
+      {!isMobile && !ui.rightPanelOpen && (
+        <button
+          onClick={toggleRightPanel}
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-l-lg px-2 py-4 shadow-lg hover:bg-[var(--bg-tertiary)] transition-all group"
+          aria-label="Open control panel"
+        >
+          <div className="flex flex-col items-center gap-2">
+            <svg className="w-5 h-5 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="text-xs font-medium text-[var(--text-secondary)] writing-mode-vertical">Controls</span>
+          </div>
+        </button>
+      )}
 
       {/* Live Example Bar (Bottom) */}
       <LiveExampleBar />
