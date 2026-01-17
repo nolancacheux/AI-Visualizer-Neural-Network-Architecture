@@ -378,7 +378,6 @@ export default function NetworkVisualization() {
 
         {/* Scene */}
         <NetworkScene />
-        <GridFloor />
 
         {/* Background stars effect - dark mode only */}
         <BackgroundStars />

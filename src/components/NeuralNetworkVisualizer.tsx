@@ -129,7 +129,7 @@ function HeaderBar({ isMobile }: { isMobile: boolean }) {
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          className="p-2 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border-color)] hover:bg-[var(--bg-elevated)] transition-colors text-[var(--text-primary)]"
           aria-label={`Switch to ${ui.theme === 'light' ? 'dark' : 'light'} mode`}
           title={`Switch to ${ui.theme === 'light' ? 'dark' : 'light'} mode`}
         >
@@ -244,14 +244,21 @@ function useKeyboardShortcuts() {
 // Hook to apply theme to document
 function useTheme() {
   const theme = useNetworkStore(state => state.ui.theme);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
-  }, [theme]);
+  }, [theme, mounted]);
 }
 
 // Main component
