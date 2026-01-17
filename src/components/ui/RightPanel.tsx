@@ -224,7 +224,7 @@ export default function RightPanel() {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 400, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed right-0 top-0 h-full w-96 glass-strong z-40 flex flex-col"
+          className="fixed right-0 top-0 h-full w-full sm:w-96 glass-strong z-40 flex flex-col max-w-[100vw]"
         >
           {/* Header */}
           <div className="p-4 border-b border-[var(--border-color)]">

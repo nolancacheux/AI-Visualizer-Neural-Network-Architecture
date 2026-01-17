@@ -1,11 +1,25 @@
 'use client';
 
-import { useEffect, useCallback, Suspense } from 'react';
+import { useEffect, useCallback, Suspense, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useNetworkStore } from '@/store/networkStore';
 import LeftSidebar from './ui/LeftSidebar';
 import RightPanel from './ui/RightPanel';
 import LiveExampleBar from './ui/LiveExampleBar';
+
+// Hook to detect mobile viewport
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+}
 
 // Dynamic import for 3D visualization (no SSR)
 const NetworkVisualization = dynamic(
@@ -30,25 +44,26 @@ function LoadingScreen() {
 }
 
 // Header bar component
-function HeaderBar() {
-  const { 
-    ui, 
-    currentArchitecture, 
-    layers, 
+function HeaderBar({ isMobile }: { isMobile: boolean }) {
+  const {
+    ui,
+    currentArchitecture,
+    layers,
     training,
-    toggleLeftPanel, 
+    toggleLeftPanel,
     toggleRightPanel,
-    getTotalParameters 
+    getTotalParameters
   } = useNetworkStore();
-  
+
   return (
-    <header className="fixed top-0 left-0 right-0 h-14 glass z-30 flex items-center justify-between px-4">
+    <header className="fixed top-0 left-0 right-0 h-14 glass z-30 flex items-center justify-between px-2 sm:px-4">
       {/* Left: Toggle sidebar */}
-      <div className="flex items-center gap-4">
-        {!ui.leftPanelOpen && (
+      <div className="flex items-center gap-2 sm:gap-4">
+        {(isMobile || !ui.leftPanelOpen) && (
           <button
             onClick={toggleLeftPanel}
             className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
+            aria-label="Toggle left panel"
           >
             <svg className="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -118,13 +133,14 @@ function HeaderBar() {
           </svg>
         </a>
         
-        {!ui.rightPanelOpen && (
+        {(isMobile || !ui.rightPanelOpen) && (
           <button
             onClick={toggleRightPanel}
             className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
+            aria-label="Toggle right panel"
           >
             <svg className="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
           </button>
@@ -204,47 +220,58 @@ function useKeyboardShortcuts() {
 
 // Main component
 export default function NeuralNetworkVisualizer() {
-  const { ui } = useNetworkStore();
-  
+  const { ui, toggleLeftPanel, toggleRightPanel } = useNetworkStore();
+  const isMobile = useIsMobile();
+
   // Register keyboard shortcuts
   useKeyboardShortcuts();
-  
-  // Calculate main content margins based on panel states
-  const mainStyles = {
+
+  // Calculate main content margins based on panel states (desktop only)
+  const mainStyles = isMobile ? {} : {
     marginLeft: ui.leftPanelOpen ? '320px' : '0',
     marginRight: ui.rightPanelOpen ? '384px' : '0',
-    paddingBottom: '0', // 3D goes all the way down, guide overlays
     transition: 'margin 0.3s ease'
   };
-  
+
   return (
     <div className="h-screen w-screen overflow-hidden bg-[var(--bg-primary)] grid-background">
+      {/* Mobile backdrop overlay when panels are open */}
+      {isMobile && (ui.leftPanelOpen || ui.rightPanelOpen) && (
+        <div
+          className="fixed inset-0 bg-black/50 z-35"
+          onClick={() => {
+            if (ui.leftPanelOpen) toggleLeftPanel();
+            if (ui.rightPanelOpen) toggleRightPanel();
+          }}
+        />
+      )}
+
       {/* Header */}
-      <HeaderBar />
-      
+      <HeaderBar isMobile={isMobile} />
+
       {/* Left Sidebar */}
       <LeftSidebar />
-      
+
       {/* Main 3D Visualization */}
-      <main 
-        className="fixed inset-0 pt-14 pb-24"
+      <main
+        className="fixed inset-0 pt-14 pb-16 md:pb-24"
         style={mainStyles}
       >
         <Suspense fallback={<LoadingScreen />}>
           <NetworkVisualization />
         </Suspense>
       </main>
-      
+
       {/* Right Panel */}
       <RightPanel />
-      
+
       {/* Live Example Bar (Bottom) */}
       <LiveExampleBar />
-      
-      {/* Footer credit */}
-      <div 
-        className="fixed bottom-[100px] z-20 pointer-events-none transition-all duration-300"
-        style={{ 
+
+      {/* Footer credit - hidden on mobile */}
+      <div
+        className="fixed bottom-[100px] z-20 pointer-events-none transition-all duration-300 hidden md:block"
+        style={{
           left: ui.leftPanelOpen ? '340px' : '20px',
           right: ui.rightPanelOpen ? '404px' : '20px'
         }}
