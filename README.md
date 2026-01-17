@@ -39,26 +39,20 @@
 
 *MLP Architecture with Layer Panel and Code Generation*
 
-### Desktop View - Transformer Architecture
-
-<img src="./images/desktop-transformer.png" alt="Transformer Architecture" width="800" />
-
-*Transformer Architecture showing Attention Layers*
-
-### Clean Visualization View
-
-<img src="./images/desktop-main.png" alt="Clean Visualization" width="800" />
-
-*Focused 3D visualization without sidebars*
-
-### Mobile Responsive
+### Feature Panels
 
 <p>
-<img src="./images/mobile-view.png" alt="Mobile View" width="250" />
-<img src="./images/mobile-main.png" alt="Mobile Main View" width="250" />
+<img src="./images/add-layer.png" alt="Add Layer Panel" width="390" />
+<img src="./images/control-panel.png" alt="Control Panel" width="390" />
 </p>
 
-*Fully responsive design for mobile devices*
+*Layer Builder (left) and Control Panel with Parameters/Code/Theory tabs (right)*
+
+### Architecture Guide
+
+<img src="./images/cnn-guide.png" alt="CNN Architecture Guide" width="800" />
+
+*Interactive Architecture Guide with layer explanations and live examples*
 
 </div>
 
