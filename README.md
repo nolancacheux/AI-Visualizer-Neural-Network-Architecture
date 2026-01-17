@@ -23,7 +23,42 @@
 
 <br />
 
-<img src="https://raw.githubusercontent.com/nolancacheux/AI-Visualizer-Neural-Network-Architecture/main/public/preview.png" alt="AI Visualizer Preview" width="800" />
+<img src="./images/desktop-full.png" alt="AI Visualizer Preview - MLP Architecture" width="800" />
+
+</div>
+
+---
+
+## Screenshots
+
+<div align="center">
+
+### Desktop View - Full Interface
+
+<img src="./images/desktop-full.png" alt="Desktop Full Interface" width="800" />
+
+*MLP Architecture with Layer Panel and Code Generation*
+
+### Desktop View - Transformer Architecture
+
+<img src="./images/desktop-transformer.png" alt="Transformer Architecture" width="800" />
+
+*Transformer Architecture showing Attention Layers*
+
+### Clean Visualization View
+
+<img src="./images/desktop-main.png" alt="Clean Visualization" width="800" />
+
+*Focused 3D visualization without sidebars*
+
+### Mobile Responsive
+
+<p>
+<img src="./images/mobile-view.png" alt="Mobile View" width="250" />
+<img src="./images/mobile-main.png" alt="Mobile Main View" width="250" />
+</p>
+
+*Fully responsive design for mobile devices*
 
 </div>
 
