@@ -607,8 +607,8 @@ export default function LiveExampleBar() {
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            className="fixed inset-0 z-30 overflow-auto md:left-0 md:right-0"
-            style={{ top: '56px' }}
+            className="fixed inset-0 z-30 overflow-auto"
+            style={{ top: '56px', left: leftMargin, right: rightMargin, transition: 'left 0.3s ease, right 0.3s ease' }}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
